@@ -1,7 +1,8 @@
 {
   "name": "s3-upload-stream-factory",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Busboy Pipe S3 Uploader",
+  "main": "./js/index.js",
   "typings": "./js/index.d.ts",
   "scripts": {},
   "author": "Wen Chang",
