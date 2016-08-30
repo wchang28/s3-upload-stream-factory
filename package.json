@@ -1,6 +1,6 @@
 {
   "name": "s3-upload-stream-factory",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Busboy Pipe S3 Uploader",
   "main": "./js/index.js",
   "typings": "./js/index.d.ts",
@@ -10,7 +10,6 @@
   "dependencies": {
     "aws-sdk": "^2.5.0",
     "busboy-pipe": "git+https://github.com/wchang28/busboy-pipe.git",
-    "lodash": "^4.15.0",
-    "s3-upload-stream": "^1.0.7"
+    "lodash": "^4.15.0"
   }
 }
