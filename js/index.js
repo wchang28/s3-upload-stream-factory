@@ -18,25 +18,34 @@ var Transformer = (function (_super) {
 }(stream.Transform));
 function get(options) {
     return (function (params) {
-        var transformer = new Transformer();
-        var s3 = new aws_sdk_1.S3();
-        var s3Params = {
-            "Bucket": options.Bucket,
-            "Key": options.KeyMaker(params),
-            "Body": transformer
-        };
-        if (options.additonalS3Options)
-            s3Params = _.assignIn(s3Params, options.additonalS3Options);
-        transformer.on('pipe', function () {
-            s3.upload(s3Params, function (err, data) {
-                if (err)
-                    transformer.emit('error', err);
-                else
-                    transformer.emit('close');
+        var Bucket = (options && options.Bucket ? options.Bucket : null);
+        var Key = null;
+        if (options && options.KeyMaker && typeof options.KeyMaker === 'function')
+            Key = options.KeyMaker(params);
+        if (Bucket && Key) {
+            var transformer_1 = new Transformer();
+            var s3_1 = new aws_sdk_1.S3();
+            var s3Params_1 = {
+                Bucket: Bucket,
+                Key: Key,
+                Body: transformer_1
+            };
+            if (options && options.additonalS3Options)
+                s3Params_1 = _.assignIn(s3Params_1, options.additonalS3Options);
+            transformer_1.on('pipe', function () {
+                s3_1.upload(s3Params_1, function (err, data) {
+                    if (err)
+                        transformer_1.emit('error', err);
+                    else
+                        transformer_1.emit('close');
+                });
             });
-        });
-        var ws = transformer;
-        return { stream: ws, streamInfo: s3Params };
+            var ws = transformer_1;
+            return { stream: ws, streamInfo: s3Params_1 };
+        }
+        else {
+            return { stream: null, streamInfo: null };
+        }
     });
 }
 exports.get = get;

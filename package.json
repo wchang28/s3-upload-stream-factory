@@ -1,6 +1,6 @@
 {
   "name": "s3-upload-stream-factory",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Busboy Pipe S3 Uploader",
   "main": "./js/index.js",
   "typings": "./js/index.d.ts",
