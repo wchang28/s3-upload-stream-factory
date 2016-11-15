@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var aws_sdk_1 = require('aws-sdk');
+var AWS = require('aws-sdk');
 var _ = require('lodash');
 var stream = require('stream');
 var Transformer = (function (_super) {
@@ -25,11 +25,12 @@ function get(options) {
             Key = options.KeyMaker(params);
         if (Bucket && Key) {
             var transformer_1 = new Transformer();
-            var s3_1 = new aws_sdk_1.S3();
+            var s3_1 = new AWS.S3();
             var s3Params_1 = {
                 Bucket: Bucket,
                 Key: Key,
-                Body: transformer_1
+                Body: transformer_1,
+                ContentType: params.fileInfo.mimetype
             };
             if (options && options.additonalS3Options)
                 s3Params_1 = _.assignIn(s3Params_1, options.additonalS3Options);
@@ -37,8 +38,11 @@ function get(options) {
                 s3_1.upload(s3Params_1, function (err, data) {
                     if (err)
                         transformer_1.emit('error', err);
-                    else
+                    else {
+                        if (data.ETag)
+                            s3Params_1.ETag = data.ETag;
                         transformer_1.emit('close');
+                    }
                 });
             });
             var ws = transformer_1;
