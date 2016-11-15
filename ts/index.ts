@@ -44,6 +44,7 @@ export function get(options: Options) : busboyPipe.WriteStreamFactory {
                         transformer.emit('error', err);
                     else {
                         if (data.ETag) s3Params.ETag = data.ETag;
+                        if (data.Location) s3Params.Location = data.Location;
                         transformer.emit('close');
                     }
                 })

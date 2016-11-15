@@ -41,6 +41,8 @@ function get(options) {
                     else {
                         if (data.ETag)
                             s3Params_1.ETag = data.ETag;
+                        if (data.Location)
+                            s3Params_1.Location = data.Location;
                         transformer_1.emit('close');
                     }
                 });
